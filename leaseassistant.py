@@ -18,12 +18,15 @@ def main():
     doc = DocxTemplate(leasetemplate)
     context = sheet.range("A2").options(dict, expand="table", numbers=int).value
     print(context)
+    print(os.path.basename(leasetemplate))
+    docname = os.path.basename(leasetemplate)
+    slicedname = docname[:-13]
 
     for key in context:
         if(context[key] == None):
             context[key] = ""
 
-    output_name = f'filled_template_{context["street_address"]}.docx'
+    output_name = slicedname  + context["street_address"] + ' - filled.docx'
     doc.render(context)
     doc.save(output_name)
 
